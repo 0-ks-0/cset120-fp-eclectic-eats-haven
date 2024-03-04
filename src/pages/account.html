@@ -1,0 +1,129 @@
+<!--
+	index.html
+
+	Sign up/login/forgot password page of restauraunt
+-->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Eclectic Eats Haven — Account</title>
+
+		<link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Kalam&family=Pacifico&display=swap" rel="stylesheet">
+
+		<link rel="stylesheet" href="style.css">
+		<script src="../scripts/helper.js"></script>
+		<script src="../scripts/navigation_manager.js"></script>
+		<script src="../scripts/storage.js"></script>
+		<script src="../scripts/account_manager.js"></script>
+		<script src="../scripts/account_page.js"></script>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			const NAVBAR_PROPERTIES =
+			{
+				"Tabs":
+				{
+					"Home": "home.html#home_header",
+					"Menu": "menu.html",
+					"Contact": "home.html#home_contact"
+				},
+
+				"Dropdown":
+				{
+					"Active":
+					{
+						"Account": [ true, () =>
+						{
+							window.location = "account.html"
+						} ],
+
+						"Manager Menu": [ () =>
+						{
+							return AccountManager.g_AccountData && AccountManager.g_AccountData.type == AccountManager.ACCOUNT_TYPE_MANAGER
+						},
+
+						() =>
+						{
+							window.location = "manager.html"
+						} ],
+
+						"Logout": [ true, () =>
+						{
+							AccountManager.logout()
+							location.reload()
+						} ]
+					},
+
+					"Inactive":
+					{
+						"Login": [ true, () =>
+						{
+							window.location = "account.html"
+						} ]
+					}
+				}
+			}
+
+			const SIDEBAR_PROPERTIES = [ "Account", "Payment Methods", "Orders", "Notifications" ]
+		</script>
+
+		<div id="account_page_account" class="account_page glass_morphism_weak" tabname="Account" active=false>
+			<div class="flexbox account_page_account_information">
+				<h1>Email Address:</h1>
+				<p index="email"></p>
+			</div>
+
+			<div class="flexbox account_page_account_information">
+				<h1>User ID:</h1>
+				<p index="userID"></p>
+			</div>
+
+			<div class="flexbox account_page_account_information">
+				<h1>Account Type:</h1>
+				<p index="type" setup="return AccountManager.stringifyAccountType(AccountManager.g_AccountData.type)"></p>
+			</div>
+
+			<div class="inline_blockbox account_page_account_information">
+				<div class="flexbox">
+					<h1>Password:</h1>
+					<p>********</p>
+				</div>
+
+				<button onclick="if (AccountManager.resetAccountPasswordPrompt(AccountManager.g_AccountData.email)) AccountManager.logout(true)" id="account_page_reset_password_button" class="account_page_button glass_morphism_weak">Reset Password</button>
+			</div>
+		</div>
+
+		<div id="account_page_payment_methods" class="account_page glass_morphism_weak" tabname="Payment Methods" active=false>
+			payment
+		</div>
+
+		<div id="account_page_orders" class="account_page glass_morphism_weak" tabname="Orders" active=false>
+			<button onclick="AccountPage.loadOrderHistory()" class="account_page_button glass_morphism_weak">Load Order History</button>
+
+			<table id="account_page_orders_table">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Date</th>
+						<th>Items</th>
+						<th>Amount</th>
+					</tr>
+				</thead>
+
+				<tbody id="account_page_orders_table_body">
+
+				</tbody>
+			</table>
+		</div>
+
+		<div id="account_page_notifications" class="account_page glass_morphism_weak" tabname="Notifications" active=false>
+			notifications
+		</div>
+	</body>
+</html>
